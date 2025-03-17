@@ -1,5 +1,5 @@
 # Omnidiff 项目介绍
-# Omnidiff 项目介绍
+![omnidiff](https://github.com/game1024/omnidiff/blob/main/images/omnidiff.jpg)
 
 ## 一、项目概述
 Omnidiff 是一个用于比较两个 JSON 对象差异的 Python 库。它能够深入分析两个 JSON 对象，找出它们之间的不同字段、在一个对象中存在而另一个对象中缺失的字段。此外，项目还提供了对 JSON 对象进行路径映射、根据通配路径匹配等功能，支持跳过指定路径的比较，提高了比较的灵活性和效率。
