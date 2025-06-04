@@ -22,9 +22,9 @@ Omnidiff 是一个用于比较两个 JSON 对象差异的 Python 库。它能够
 - `time`：用于函数执行时间监测。
 - `jmespath`：用于从 JSON 对象中提取指定路径的值。
 
-你可以使用以下命令安装 `jmespath`：
+你可以使用以下命令安装 `omnidiff`：
 ```bash
-pip install jmespath
+pip install omnidiff
 ```
 
 ## 四、使用示例
@@ -32,7 +32,7 @@ pip install jmespath
 ### 1. 比较两个 JSON 对象
 ```python
 import json
-from your_module import compare, CompareResult
+from omnidiff import compare, CompareResult
 
 a_json = {
     "name": "Alice",
@@ -60,7 +60,7 @@ result = compare(a_json, b_json, skip_paths)
 
 ### 3. JSON 对象映射
 ```python
-from your_module import map_jmespath
+from omnidiff import map_jmespath
 
 def hash_func(node):
     return str(hash(node))
@@ -86,4 +86,3 @@ print(mapped_obj)
 ## 七、贡献与反馈
 如果你发现项目存在问题或有改进建议，欢迎提交 Issues 或 Pull Requests。同时，也欢迎你参与项目的开发和维护，共同完善 Omnidiff 项目。
 
-以上 README 文档假设项目名为 `omnidiff`，你可以根据实际情况进行调整。同时，将 `your_module` 替换为实际包含代码的 Python 模块名。 
