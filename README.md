@@ -13,7 +13,10 @@ Omnidiff 是一个用于比较两个 JSON 对象差异的 Python 库。它能够
 
 ## 三、安装与依赖
 ### 安装
-目前该项目未提供标准的安装方式，你可以直接将项目中的 Python 文件复制到你的项目中使用。
+你可以使用以下命令安装 `omnidiff`：
+```bash
+pip install omnidiff
+```
 
 ### 依赖
 该项目依赖以下 Python 库：
@@ -22,10 +25,7 @@ Omnidiff 是一个用于比较两个 JSON 对象差异的 Python 库。它能够
 - `time`：用于函数执行时间监测。
 - `jmespath`：用于从 JSON 对象中提取指定路径的值。
 
-你可以使用以下命令安装 `omnidiff`：
-```bash
-pip install omnidiff
-```
+
 
 ## 四、使用示例
 
