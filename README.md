@@ -11,20 +11,12 @@ Omnidiff 是一个用于比较两个 JSON 对象差异的 Python 库。它能够
 4. **JSON 对象映射**：可以根据指定的映射路径和哈希函数对 JSON 对象进行映射转换。
 5. **性能监测**：使用装饰器对函数执行时间进行监测，方便性能优化。
 
-## 三、安装与依赖
+## 三、安装
 ### 安装
 你可以使用以下命令安装 `omnidiff`：
 ```bash
 pip install omnidiff
 ```
-
-### 依赖
-该项目依赖以下 Python 库：
-- `copy`：用于深拷贝 JSON 对象。
-- `re`：用于正则表达式匹配，处理通配路径。
-- `time`：用于函数执行时间监测。
-- `jmespath`：用于从 JSON 对象中提取指定路径的值。
-
 
 
 ## 四、使用示例
@@ -32,8 +24,47 @@ pip install omnidiff
 ### 1. 比较两个 JSON 对象
 ```python
 import json
-from omnidiff import compare, CompareResult
+from omnidiff import compare
+import pprint
 
+a_json = {
+    "name": "Alice",
+    "age": 25,
+    "hobbies": ["reading", "swimming"]
+}
+
+b_json = {
+    "name": "Bob",
+    "age": 30,
+    "hobbies": ["running", "swimming"]
+} 
+
+result = compare(a_json, b_json)
+pprint.pprint(result.diff_fields, width=60, sort_dicts=False)
+'''
+输出如下，结果是一个列表，其中包含了有差异的字段路径，a中的值，b中的值，和差异原因
+[('@.age',
+  25,
+  30,
+  'path:@.age is different, a_value:25 b_value:30'),
+ ('@.hobbies[0]',
+  'reading',
+  'running',
+  'path:@.hobbies[0] is different, a_value:reading '
+  'b_value:running'),
+ ('@.name',
+  'Alice',
+  'Bob',
+  'path:@.name is different, a_value:Alice b_value:Bob')]
+'''
+```
+
+### 2. 跳过指定路径的比较
+如果需要忽略某个字段的比较，可以使用compare的第三个参数skip_paths
+```python
+import json
+from omnidiff import compare
+import pprint
 a_json = {
     "name": "Alice",
     "age": 25,
@@ -46,28 +77,50 @@ b_json = {
     "hobbies": ["running", "swimming"]
 }
 
-result = compare(a_json, b_json)
-print("不同字段：", result.diff_fields)
-print("A 中缺失的字段：", result.a_missing_fields)
-print("B 中缺失的字段：", result.b_missing_fields)
-```
 
-### 2. 跳过指定路径的比较
-```python
-skip_paths = ["age"]
+skip_paths = ["@.age"] # 忽略@.age的字段比较
 result = compare(a_json, b_json, skip_paths)
+pprint.pprint(result.diff_fields, width=60, sort_dicts=False)
+
+'''
+输出如下，会返回结果中不会出现@.age的差异
+[('@.hobbies[0]',
+  'reading',
+  'running',
+  'path:@.hobbies[0] is different, a_value:reading '
+  'b_value:running'),
+ ('@.name',
+  'Alice',
+  'Bob',
+  'path:@.name is different, a_value:Alice b_value:Bob')]
+'''
 ```
 
 ### 3. JSON 对象映射
+如果想要在比较前，对对象进行预处理，把其中的列表类型字段转化成字典类型，可以使用map_jmespath，该函数接受待转化的字段路径，和哈希转化函数
+
+
 ```python
 from omnidiff import map_jmespath
+import pprint
 
 def hash_func(node):
     return str(hash(node))
 
 json_obj = ["apple", "banana", "cherry"]
+
+
+# 我们想将@路径的，直接转化成字典类型，key为hash_func的返回值，value为原数组元素的值
 mapped_obj = map_jmespath(json_obj, "@", hash_func)
-print(mapped_obj)
+
+pprint.pprint(mapped_obj, width=60, sort_dicts=False)
+
+'''
+输出如下
+{'7748484625998085887': 'apple',
+ '1198650295607495188': 'banana',
+ '7490853343013369096': 'cherry'}
+'''
 ```
 
 ## 五、代码结构
